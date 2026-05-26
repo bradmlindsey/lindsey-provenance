@@ -8,8 +8,8 @@ dist/
 build/
 .pytest_cache/
 
-# brad-lite project content (these are user data, not framework code)
-# When you `brad-lite init` somewhere else, those folders should commit.
+# lindsey-provenance project content (these are user data, not framework code)
+# When you `lindsey-provenance init` somewhere else, those folders should commit.
 # But inside THIS repo (the framework repo), we don't ship user projects.
 operator/projects/_*selftest*/
 operator/proof_state_ledger/*.jsonl

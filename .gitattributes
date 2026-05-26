@@ -1,0 +1,26 @@
+# Line-ending discipline: store everything as LF in the repo regardless of
+# which OS the contributor is on. Working-copy ending is left to Git's
+# core.autocrlf setting (Windows default = CRLF in working copy).
+#
+# Rationale: cross-platform Python projects standardize on LF in the repo
+# so that diffs, blame, and CI behavior are deterministic. The repo state
+# is the canonical text; the working copy can be whatever the contributor's
+# OS prefers.
+
+* text=auto eol=lf
+
+# Binary files — never line-ending convert
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.stl binary
+*.npz binary
+*.docx binary
+*.xlsx binary
+*.pptx binary
