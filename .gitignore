@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+
+# brad-lite project content (these are user data, not framework code)
+# When you `brad-lite init` somewhere else, those folders should commit.
+# But inside THIS repo (the framework repo), we don't ship user projects.
+operator/projects/_*selftest*/
+operator/proof_state_ledger/*.jsonl
+!operator/proof_state_ledger/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp

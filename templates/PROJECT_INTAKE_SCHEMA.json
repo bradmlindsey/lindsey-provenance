@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BRAD Project Intake Schema",
+  "description": "Canonical input schema for a new WOQFEW project spawned under the BRAD engine. All projects inherit ace.phase4.freeze-1.",
+  "secret_ip": true,
+  "principal": "Brad M. Lindsey",
+  "institution": "Lindsey Lab",
+  "replicator_baseline": "ace.phase4.freeze-1",
+  "replicator_baseline_sha256": "9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57",
+  "type": "object",
+  "required": [
+    "slug",
+    "project_name",
+    "one_sentence_technical",
+    "one_sentence_non_technical",
+    "never_confuse_with",
+    "intent",
+    "principal_signoff"
+  ],
+  "properties": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{2,31}$",
+      "description": "Kebab-case identifier, 3-32 chars."
+    },
+    "project_name": {
+      "type": "string",
+      "description": "Full project name (free text)."
+    },
+    "project_codename": {
+      "type": "string",
+      "description": "Optional WOQFEW-style codename (e.g., 'SC-2', 'H-FEDCAB')."
+    },
+    "principal": {
+      "type": "string",
+      "default": "Brad M. Lindsey",
+      "description": "Authorising Principal. Defaults to Brad M. Lindsey."
+    },
+    "institution": {
+      "type": "string",
+      "default": "Lindsey Lab"
+    },
+    "ip_classification": {
+      "type": "string",
+      "enum": ["SECRET_IP_institutional_reserve", "SECRET_IP_external_license_pending", "DEFENSIVE_PUBLICATION", "PUBLIC"],
+      "default": "SECRET_IP_institutional_reserve"
+    },
+    "one_sentence_technical": {
+      "type": "string",
+      "minLength": 40,
+      "description": "Technical definition of the project; one sentence."
+    },
+    "one_sentence_non_technical": {
+      "type": "string",
+      "minLength": 40,
+      "description": "Plain-language definition; one sentence."
+    },
+    "never_confuse_with": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "description": "Counter-indications: what this project must NEVER be confused with."
+    },
+    "inherits_from": {
+      "type": "object",
+      "description": "Inheritance roll-up. Every project inherits the BRAD engine; additional prior projects may be inherited.",
+      "properties": {
+        "brad_engine": {
+          "type": "string",
+          "const": "ace.phase4.freeze-1",
+          "description": "Mandatory inheritance from the sealed BRAD engine."
+        },
+        "brad_engine_sha256": {
+          "type": "string",
+          "const": "9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57"
+        },
+        "additional_projects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "slug": {"type": "string"},
+              "phase_freeze": {"type": "string"},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            },
+            "required": ["slug", "phase_freeze", "sha256"]
+          }
+        }
+      },
+      "required": ["brad_engine", "brad_engine_sha256"]
+    },
+    "intent": {
+      "type": "object",
+      "description": "Six-section canonical intent schema (matches ace_intent_lexer.parse_intent).",
+      "required": ["structural", "environmental_fields", "acoustic_carriers", "fluidic_transport", "invariants", "process_gates"],
+      "properties": {
+        "structural": {
+          "type": "object",
+          "properties": {
+            "material_card": {"type": "string", "enum": ["SLA_RIGID_10K", "TPE_SHORE85", "PDMS", "NEOPRENE", "CONCRETE_CL", "CUSTOM"]},
+            "scale_axis_m": {"type": "number", "minimum": 0.060, "maximum": 2.000},
+            "min_feature_size_m": {"type": "number", "minimum": 300e-6},
+            "min_wall_thickness_m": {"type": "number", "minimum": 600e-6},
+            "edge_snap_tolerance_m": {"type": "number", "const": 1.0e-6},
+            "eps_target": {"type": "number", "minimum": 0.001, "maximum": 0.040},
+            "wall_amp_ratio": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+            "span_mm": {"type": "number"}
+          },
+          "required": ["material_card", "scale_axis_m"]
+        },
+        "environmental_fields": {
+          "type": "object",
+          "properties": {
+            "peak_mechanical_load_n": {"type": "number"},
+            "von_mises_threshold_pa": {"type": "number", "maximum": 12000000.0},
+            "external_hydro_pressure_pa": {"type": "number"},
+            "temp_c": {"type": "number", "default": 22.0}
+          },
+          "required": ["peak_mechanical_load_n"]
+        },
+        "acoustic_carriers": {
+          "type": "object",
+          "properties": {
+            "center_frequency_hz": {"type": "number"},
+            "sweep_range_hz": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+            "target_quality_factor": {"type": "number"},
+            "f_corner_lc_match_hz": {"type": "number", "default": 5000.0}
+          },
+          "required": ["center_frequency_hz"]
+        },
+        "fluidic_transport": {
+          "type": "object",
+          "properties": {
+            "max_mach_number": {"type": "number", "maximum": 0.3},
+            "fluid_viscosity_pa_s": {"type": "number"},
+            "saturation_pressure_pa": {"type": "number", "default": 2340.0},
+            "inlet_v_ms": {"type": "number"}
+          },
+          "required": ["fluid_viscosity_pa_s"]
+        },
+        "invariants": {
+          "type": "object",
+          "properties": {
+            "laminar_override": {"type": "boolean", "default": true},
+            "zero_telemetry_enclosure": {"type": "boolean", "const": true, "description": "Rule 8 — cannot be disabled."},
+            "bfs_drainage_check": {"type": "boolean", "default": true}
+          },
+          "required": ["zero_telemetry_enclosure"]
+        },
+        "process_gates": {
+          "type": "object",
+          "properties": {
+            "max_rmse_convergence": {"type": "number", "maximum": 1.0e-6, "description": "Rule 75 ceiling."},
+            "min_mpi_processes_per_case": {"type": "integer", "minimum": 64, "description": "Rule 76 floor."},
+            "min_pearson_r": {"type": "number", "minimum": 0.95, "description": "Rule 78 floor."},
+            "max_cascade_leak": {"type": "number", "maximum": 1.0e-6, "description": "Rule 79 ceiling."},
+            "min_macro_margin": {"type": "number", "minimum": 2.5, "description": "Rule 80 floor."},
+            "min_drainage_pct": {"type": "number", "minimum": 99.0}
+          }
+        }
+      }
+    },
+    "phases_planned": {
+      "type": "integer",
+      "const": 4,
+      "description": "All WOQFEW projects target 4 phases."
+    },
+    "expected_theory_branches": {
+      "type": "integer",
+      "default": 1,
+      "minimum": 1,
+      "maximum": 5,
+      "description": "1 for a single-branch project; up to 5 for a multi-branch meta-build. Rule 76 caps at 5."
+    },
+    "demo_target": {
+      "type": "object",
+      "description": "The smallest physical demo that would prove the core idea.",
+      "properties": {
+        "description": {"type": "string"},
+        "estimated_cost_usd": {"type": "number"},
+        "estimated_time_weeks": {"type": "number"}
+      }
+    },
+    "long_term_vision": {
+      "type": "string",
+      "description": "Optional — the largest long-term application. Marked speculative until physically validated."
+    },
+    "prohibited_language": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": ["sentient", "cognitive", "biological intelligence", "autonomous choice"],
+      "description": "Overclaim guardrails. Build agent must avoid these terms in journals."
+    },
+    "principal_signoff": {
+      "type": "object",
+      "required": ["signed_by", "signed_utc"],
+      "properties": {
+        "signed_by": {"type": "string", "const": "Brad M. Lindsey"},
+        "signed_utc": {"type": "string", "format": "date-time"},
+        "note": {"type": "string"}
+      }
+    }
+  }
+}
