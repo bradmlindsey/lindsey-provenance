@@ -2,7 +2,7 @@
 
 A small Python framework for working with an LLM on a real codebase without losing your mind.
 
-I started writing code for the first time on April 4, 2026. By May 20, I had ~280,000 lines of Python across several projects, all written with LLM co-authorship. Most of it works. Some of it didn't. The pattern that separated "works" from "didn't" was discipline — specifically, the few practices in this repo.
+I started writing code for the first time on April 4, 2026. By May 20, I had ~280,000 lines of Python in cumulative authorship across several projects, all written with LLM co-authorship. Most of it works. Some of it didn't. The pattern that separated "works" from "didn't" was discipline — specifically, the few practices in this repo.
 
 `lindsey-provenance` is those practices extracted into a tool. It is what I wish I'd had on day one.
 
@@ -67,6 +67,8 @@ The hello-world example in `examples/hello-world/` exercises every CLI tool end-
 ## Who I am, briefly
 
 Brad M. Lindsey. Master Electrician + Master HVAC Technician. Started writing code on 2026-04-04. This repo is the methodology that made the rest of my codebase survive its own creation rate. The author bio on the companion arXiv preprint has the longer version.
+
+ORCID: [0009-0004-6392-2720](https://orcid.org/0009-0004-6392-2720)
 
 ## License
 
