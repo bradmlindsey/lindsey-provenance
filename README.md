@@ -80,6 +80,90 @@ If you use lindsey-provenance or the disciplines in it in academic work, please 
 
 > Lindsey, B. M. (2026). *Phase-chain freeze and closed-form re-route: a discipline for LLM-collaborative engineering with cryptographic provenance.* arXiv preprint. (URL to be added when published.)
 
+## Verification
+
+The author identity that signs this repository, the companion preprint, the retro-signed proof-state ledger, and all five web surfaces (`bradmlindsey.com`, `lindseyprovenance.com`, `bygyze.com`, `gizuiz.com`, `aenoris.com`) is bound to a single Ed25519 public key.
+
+**Public-key fingerprint:**
+
+```
+62ad9c80005a2c58e574ec3232d9bf09416ffd7bdf1a47077afe745c4c37b6db
+```
+
+This is the raw-bytes hex of the Ed25519 public key. SHA-256 over the raw public key starts with `907a5aab75724821…`. The key was generated 2026-05-26 PM and is referenced from the master ledger at `02_methodology/master_authorship_ledger.md` Section E.1.
+
+### What this public key signs
+
+- **The proof-state ledger.** All 152 transitions in the project's `proof_state_ledger/LEDGER.jsonl` were retro-signed in a single pass at `2026-05-26T22:47:09Z`, producing `LEDGER.signed.jsonl`. The sign-pass timestamp is recorded as a distinct field (`retro_signature_ts`) from the original transition timestamps, so verifiers can distinguish original-event time from binding-event time.
+- **The master authorship ledger.** `02_methodology/master_authorship_ledger.md` Section A canonical entries. The full workspace state at the time of the public flip of this repository is anchored at SHA-256 path-plus-size rollup `234ea7b3…0416` / IP-critical content rollup `5a71881d…cf95` (E.1 row dated `2026-05-26 PM drop Step 4`).
+- **Future signed artifacts.** Any document, slide deck, or artifact that links back to the verification procedure with this fingerprint claims the same author identity.
+
+### How to verify a signed ledger entry
+
+The signed ledger (`LEDGER.signed.jsonl`) is one JSON object per line. Each line carries the seven authoritative fields (`artifact_name`, `prior_state`, `new_state`, `transition_ts`, `operator_id`, `evidence_sha256`, plus the LEDGER protocol version) and three signature fields appended by the retro-sign script:
+
+- `retro_signature_ed25519` — hex-encoded Ed25519 signature, 128 hex chars (64 bytes)
+- `retro_signature_ts` — ISO 8601 UTC sign-pass timestamp
+- `retro_signature_method` — `"ed25519_v1"`
+
+To verify a single row with the public key, using Python and the `cryptography` library:
+
+```python
+import json
+import binascii
+from cryptography.hazmat.primitives.serialization import load_pem_public_key
+from cryptography.exceptions import InvalidSignature
+
+# Load the public key (PEM format from the canonical pub file)
+with open("brad_authorship.pub", "rb") as f:
+    pub = load_pem_public_key(f.read())
+
+# Parse a row from LEDGER.signed.jsonl
+row = json.loads(LINE_FROM_LEDGER)
+
+# Reconstruct the canonical form (the seven authoritative fields,
+# JSON-serialized with sorted keys, no whitespace, UTF-8 bytes)
+auth_fields = {
+    k: row[k] for k in [
+        "artifact_name", "prior_state", "new_state",
+        "transition_ts", "operator_id", "evidence_sha256",
+        "ledger_version"
+    ]
+}
+canonical = json.dumps(auth_fields, sort_keys=True, separators=(",", ":")).encode("utf-8")
+
+# Decode the signature and verify
+sig = binascii.unhexlify(row["retro_signature_ed25519"])
+try:
+    pub.verify(sig, canonical)
+    print("verified")
+except InvalidSignature:
+    print("FAILED")
+```
+
+The canonical-form discipline binds only the seven authoritative fields. Adding extra fields to a row after signing does not change the signature (verified in the 2026-05-26 PM dry-run; the canonical form is stable under extra-field addition).
+
+### Obtaining the public key file
+
+The PEM-encoded public key is published at `02_methodology/keys/brad_authorship.pub` in this repository (the private key is never committed). You can also reproduce the fingerprint locally:
+
+```bash
+openssl pkey -pubin -in brad_authorship.pub -outform DER | sha256sum
+# (Note: this hashes the DER-encoded SubjectPublicKeyInfo, not the raw bytes.
+# The raw-bytes fingerprint above is what's published; SHA-256 of the raw
+# bytes gives 907a5aab75724821… as the prefix.)
+```
+
+### When the key rotates
+
+Key rotation would be a major identity event and would require a coordinated update across this repository, all five web surfaces, the LinkedIn featured section, the ORCID profile, and any active arXiv submissions. The brand package at `04_external/websites/BRAND_PACKAGE_v1.md` documents the rotation protocol. As of 2026-05-27 the public key has not rotated and no rotation is scheduled.
+
+### What this public key does NOT sign
+
+- It does not vouch for the truth of any claim in this repository's documentation. It vouches that this author wrote those words at the sign-pass timestamp.
+- It does not establish that any proof-state transition's content is true. It establishes that whoever held the private key on 2026-05-26 attested to the recorded state of each transition.
+- It does not extend to derivative works by other authors. A fork's commit history is bound to the forker's keys, not this one.
+
 ## Contributing
 
 External code contributions are not accepted in v0.1 — I want 60–90 days to see how the repo behaves in the wild before taking on maintainer load. Issues are very welcome; please open them. Discussion of the methodology is encouraged.
