@@ -1,11 +1,11 @@
 # Phase `<N>` — `<slug>` — `<phase title>`
 
-**SECRET IP · Brad M. Lindsey · Lindsey Lab**
+**Brad M. Lindsey · Lindsey Lab**
 **Project:** `<slug>`
 **Phase:** `<N>` of 4
 **Phase date:** `YYYY-MM-DD`
 **Inherits:**
-- `ace.phase4.freeze-1` = `9f9d28e5...fbb57` (mandatory replicator baseline)
+- `my-engine.v1.freeze-1` = `9f9d28e5...fbb57` (mandatory replicator baseline)
 - `<slug>_phase<N-1>_manifest.json` (if N > 1)
 
 > This template is the canonical phase brief. The Principal signs the bottom before any phase work begins. The build agent receives a `BUILDER_PROMPT.md` rendered from this file plus `PROJECT_MANIFEST.json`.
@@ -17,7 +17,7 @@
 **Title:** `<short title, e.g. "4-physics solver + density carve">`
 **Scope (one line):** `<one sentence>`
 
-## 2. Phase position in the canonical WOQFEW partition
+## 2. Phase position in the canonical partition
 
 Mark which steps of the 12-step compiler partition this phase covers:
 
@@ -36,7 +36,7 @@ Mark which steps of the 12-step compiler partition this phase covers:
 | 11 | Refit + RMSE ≤ 10⁻⁶ gate | `[x|]` |
 | 12 | Cryptographic freeze | `[x|]` |
 
-(For ACE / BRAD-class meta-builds, Phase 2 wraps steps 1–11 in a 5-branch batch; Phase 3 runs inversion + cascade + macro; Phase 4 seals.)
+(For multi-branch meta-builds, Phase 2 wraps steps 1–11 in a 5-branch batch; Phase 3 runs inversion + cascade + macro; Phase 4 seals.)
 
 ## 3. Modules to author
 
@@ -81,7 +81,7 @@ Every row below must be PASS before the phase can be sealed. The `EVIDENCE_AUDIT
 | 7 | Cascade leak (if Phase 3) | ≤ 10⁻⁶ | `<slug>_phase<N>_cascade.json` |
 | 8 | Macro margin (if Phase 3) | ≥ 2.5× | `<slug>_phase<N>_macro.json` |
 | 9 | Freeze manifest emitted | exists | `<slug>_phase<N>_manifest.json` |
-| 10 | Inheritance assertion | inlines BRAD SHA | same |
+| 10 | Inheritance assertion | inlines the baseline SHA | same |
 
 ## 6. IP claims expected in this phase
 
@@ -119,7 +119,7 @@ Approximate number of GLP-grade entries this phase will produce: `<n>`. Each ent
 
 ## 10. Phase dispatch authorisation
 
-> *I, Brad M. Lindsey, authorise Phase `<N>` of project `<slug>` to proceed under the BRAD engine, with all output reserved as SECRET IP at the institutional level. The build agent is dispatched per `BUILDER_PROMPT_TEMPLATE.md`. Acceptance is per §5 above.*
+> *I, Brad M. Lindsey, authorise Phase `<N>` of project `<slug>` to proceed under the sealed baseline, with all output reserved at the operator's discretion. The build agent is dispatched per `BUILDER_PROMPT_TEMPLATE.md`. Acceptance is per §5 above.*
 
 - **Signed by:** Brad M. Lindsey
 - **Signed UTC:** `YYYY-MM-DDThh:mm:ssZ`
@@ -140,8 +140,8 @@ After populating: write the deferral list verbatim into the Phase-N report §10 
 ## 11. Phase closure (filled at seal)
 
 - **Sealed UTC:** `YYYY-MM-DDThh:mm:ssZ`
-- **Phase manifest SHA-256:** `<filled by brad_freeze_manifest.py>`
-- **Inherits asserted:** ✅ ace.phase4.freeze-1 + ✅ prior phase (if N > 1)
+- **Phase manifest SHA-256:** `<filled by freeze_manifest.py>`
+- **Inherits asserted:** ✅ my-engine.v1.freeze-1 + ✅ prior phase (if N > 1)
 - **Audit checklist:** ✅ all rows PASS / ❌ failures (list)
 - **IP-journal rows opened:** `<n>`
 - **IP-journal rows signed:** `<n>`

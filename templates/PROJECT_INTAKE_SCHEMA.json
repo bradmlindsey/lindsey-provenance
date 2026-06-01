@@ -1,11 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "BRAD Project Intake Schema",
-  "description": "Canonical input schema for a new WOQFEW project spawned under the BRAD engine. All projects inherit ace.phase4.freeze-1.",
-  "secret_ip": true,
+  "title": "Project Intake Schema",
+  "description": "Canonical input schema for a new project. All projects inherit the sealed baseline.",
   "principal": "Brad M. Lindsey",
   "institution": "Lindsey Lab",
-  "replicator_baseline": "ace.phase4.freeze-1",
+  "replicator_baseline": "my-engine.v1.freeze-1",
   "replicator_baseline_sha256": "9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57",
   "type": "object",
   "required": [
@@ -29,7 +28,7 @@
     },
     "project_codename": {
       "type": "string",
-      "description": "Optional WOQFEW-style codename (e.g., 'SC-2', 'H-FEDCAB')."
+      "description": "Optional short codename (e.g., 'SC-2')."
     },
     "principal": {
       "type": "string",
@@ -39,11 +38,6 @@
     "institution": {
       "type": "string",
       "default": "Lindsey Lab"
-    },
-    "ip_classification": {
-      "type": "string",
-      "enum": ["SECRET_IP_institutional_reserve", "SECRET_IP_external_license_pending", "DEFENSIVE_PUBLICATION", "PUBLIC"],
-      "default": "SECRET_IP_institutional_reserve"
     },
     "one_sentence_technical": {
       "type": "string",
@@ -63,14 +57,14 @@
     },
     "inherits_from": {
       "type": "object",
-      "description": "Inheritance roll-up. Every project inherits the BRAD engine; additional prior projects may be inherited.",
+      "description": "Inheritance roll-up. Every project inherits the sealed baseline; additional prior projects may be inherited.",
       "properties": {
-        "brad_engine": {
+        "baseline": {
           "type": "string",
-          "const": "ace.phase4.freeze-1",
-          "description": "Mandatory inheritance from the sealed BRAD engine."
+          "const": "my-engine.v1.freeze-1",
+          "description": "Mandatory inheritance from the sealed baseline."
         },
-        "brad_engine_sha256": {
+        "baseline_sha256": {
           "type": "string",
           "const": "9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57"
         },
@@ -87,7 +81,7 @@
           }
         }
       },
-      "required": ["brad_engine", "brad_engine_sha256"]
+      "required": ["baseline", "baseline_sha256"]
     },
     "intent": {
       "type": "object",
@@ -163,7 +157,7 @@
     "phases_planned": {
       "type": "integer",
       "const": 4,
-      "description": "All WOQFEW projects target 4 phases."
+      "description": "All projects target 4 phases."
     },
     "expected_theory_branches": {
       "type": "integer",

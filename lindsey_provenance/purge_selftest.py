@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""brad_purge_selftest - remove leftover self-test residue from operator state.
+"""purge_selftest - remove leftover self-test residue from operator state.
 
 Provenance-tracked build (lindsey-provenance framework).
 
@@ -121,7 +121,7 @@ def main():
     dry = not args.execute
     log_path = os.path.join(_operator_root(), "sealed_core_audit",
                              "PURGE_" + time.strftime("%Y-%m-%dT%H-%M-%SZ") + ".log")
-    print("brad_purge_selftest (" + ("dry-run" if dry else "EXECUTE") + ")")
+    print("purge_selftest (" + ("dry-run" if dry else "EXECUTE") + ")")
     print("audit log: " + log_path)
     if not dry:
         _log_action("BEGIN purge (execute)", log_path)

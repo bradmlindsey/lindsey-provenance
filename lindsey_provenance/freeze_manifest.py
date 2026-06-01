@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
-"""brad_freeze_manifest — per-project per-phase cryptographic freeze.
+"""freeze_manifest — per-project per-phase cryptographic freeze.
 
 Provenance-tracked build (lindsey-provenance framework).
 
 Walks operator/projects/<slug>/proto/ and operator/projects/<slug>/artifacts/,
-SHA-256s every file, inherits ace.phase4.freeze-1 plus any prior phase
+SHA-256s every file, inherits my-engine.v1.freeze-1 plus any prior phase
 manifests for this project (and any additional inheritances declared in
 PROJECT_MANIFEST.json:inherits_from.additional_projects), and emits:
 
     operator/projects/<slug>/artifacts/<slug>_phase<N>_manifest.json
 
 The top-level digest <slug>.phase<N>.freeze-1_sha256 is computed over the
-canonical-sort body bytes (with frozen_utc included, matching the BRAD
+canonical-sort body bytes (with frozen_utc included, matching the framework's
 engine's convention so re-runs produce a different top digest while every
 per-file SHA stays byte-deterministic).
 
 Usage:
-    python3 brad_freeze_manifest.py --project <slug> --phase N [--dry-run]
-    python3 brad_freeze_manifest.py --project <slug> --phase N --verify
-    python3 brad_freeze_manifest.py --selftest
+    python3 freeze_manifest.py --project <slug> --phase N [--dry-run]
+    python3 freeze_manifest.py --project <slug> --phase N --verify
+    python3 freeze_manifest.py --selftest
 """
 from __future__ import annotations
 
@@ -73,10 +73,10 @@ def _walk(root, exclude_suffixes=()):
 
 def _verify_inheritance(project_manifest):
     inh = project_manifest.get("inherits_from", {})
-    bsha = inh.get("brad_engine_sha256")
+    bsha = inh.get("baseline_sha256")
     if bsha != REPLICATOR_SHA256:
         raise FreezeError(
-            "PROJECT_MANIFEST.json does not inline the BRAD replicator "
+            "PROJECT_MANIFEST.json does not inline the replicator "
             "baseline SHA-256. Refusing to seal. Expected "
             + REPLICATOR_SHA256 + "; got " + str(bsha)
         )
@@ -165,11 +165,10 @@ def freeze(slug, phase, dry_run=False):
         "slug":                        slug,
         "codename":                    pm.get("project_codename", ""),
         "phase":                       phase,
-        "tier":                        "WOQFEW operator-spawned project",
+        "tier":                        "operator-spawned project",
         "principal":                   PRINCIPAL,
         "institution":                 INSTITUTION,
         "frozen_utc":                  _utc(),
-        "secret_ip":                   bool(pm.get("secret_ip", False)),
         "replicator_baseline":         REPLICATOR_BASELINE,
         "replicator_baseline_sha256":  REPLICATOR_SHA256,
         "inherits":                    inherits,
@@ -218,8 +217,8 @@ def verify_chain(slug, phase):
 
 
 def _selftest():
-    """Functional self-test. Uses a '_selftest_' slug so brad_audit skips it."""
-    print("brad_freeze_manifest — self-test")
+    """Functional self-test. Uses a '_selftest_' slug so audit skips it."""
+    print("freeze_manifest — self-test")
     slug = "_selftest_fm_" + str(int(time.time()))
     root = _project_root(slug)
     os.makedirs(os.path.join(root, "proto"), exist_ok=True)
@@ -236,12 +235,11 @@ def _selftest():
         "principal": PRINCIPAL,
         "institution": INSTITUTION,
         "inherits_from": {
-            "brad_engine":        REPLICATOR_BASELINE,
-            "brad_engine_sha256": REPLICATOR_SHA256,
+            "baseline":        REPLICATOR_BASELINE,
+            "baseline_sha256": REPLICATOR_SHA256,
             "additional_projects": [],
         },
         "replicator_baseline_sha256": REPLICATOR_SHA256,
-        "secret_ip": False,
     }
     open(os.path.join(root, "PROJECT_MANIFEST.json"), "w").write(
         json.dumps(pm, indent=2, sort_keys=True)
@@ -269,7 +267,7 @@ def _selftest():
         cleanup_ok = False
     print("  cleanup            : "
           + ("PASS" if cleanup_ok else "BEST-EFFORT (sandbox FS locked)"))
-    print("---\n  brad_freeze_manifest: " + ("PASS" if chain_ok else "FAIL"))
+    print("---\n  freeze_manifest: " + ("PASS" if chain_ok else "FAIL"))
     return 0 if chain_ok else 1
 
 
@@ -289,7 +287,7 @@ def main():
 
     if args.verify:
         chk = verify_chain(args.project, args.phase)
-        print("[brad_freeze_manifest: verify ok=" + str(chk["ok"]) + "]")
+        print("[freeze_manifest: verify ok=" + str(chk["ok"]) + "]")
         for rel, why in chk["mismatches"]:
             print("  " + rel + ": " + why)
         sys.exit(0 if chk["ok"] else 1)
@@ -297,7 +295,7 @@ def main():
     body, target = freeze(args.project, args.phase, dry_run=args.dry_run)
     name = body["baseline_name"]
     digest = body[name + "_sha256"]
-    print("[brad_freeze_manifest: PASS - " + name + "]")
+    print("[freeze_manifest: PASS - " + name + "]")
     suffix = " (dry-run)" if args.dry_run else ""
     print("  manifest path     : " + target + suffix)
     n_src = body["source_modules"]["n"]

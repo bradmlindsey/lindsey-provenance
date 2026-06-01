@@ -1,6 +1,6 @@
 # Lab Notebook Entry — `<slug>`
 
-**SECRET IP · Brad M. Lindsey · Lindsey Lab**
+**Brad M. Lindsey · Lindsey Lab**
 **Notebook format:** GLP-compatible (sequential pages · no erasures · witness line)
 
 > Industry-standard lab-notebook entries are sequentially paginated, never erased (only strike-through with operator initials), signed by the operator, and witnessed for high-consequence runs. One **session = one page**. Each entry below uses a fresh page number from the running ledger at `lab_notebooks/<slug>_PAGE_LEDGER.txt`.
@@ -29,9 +29,9 @@
 | Item | Description | Identifier / version | Calibration date |
 |---|---|---|---|
 | Python | runtime | `3.10.x` | n/a |
-| numpy | library | `<version>` | n/a |
+| Python stdlib | library | `3.10+` | n/a |
 | Workstation | hardware | `<spec>` | n/a |
-| Sealed BRAD core | reference baseline | `ace.phase4.freeze-1 = 9f9d28e5…fbb57` | 2026-05-18 |
+| Sealed baseline | reference baseline | `my-engine.v1.freeze-1 = 9f9d28e5…fbb57` | 2026-05-18 |
 | Project source | proto/ at session start | git SHA / mtime / SHA-256 list | session start |
 | `<instrument>` | `<purpose>` | `<id>` | `<date>` |
 

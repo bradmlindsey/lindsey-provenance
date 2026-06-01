@@ -108,8 +108,8 @@ The `freeze` command writes a manifest like:
   "phase": 2,
   "frozen_utc": "2026-05-20T05:15:00Z",
   "inherits": {
-    "brad_engine": "my-engine.v1.freeze-1",
-    "brad_engine_sha256": "abc...",
+    "baseline": "my-engine.v1.freeze-1",
+    "baseline_sha256": "abc...",
     "additional_projects": [
       ["my-project.phase1.freeze-1", "def..."]
     ]

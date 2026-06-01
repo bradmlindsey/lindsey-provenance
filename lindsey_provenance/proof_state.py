@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""brad_proof_state — proof-state classifier and ledger for BRAD projects.
+"""proof_state — proof-state classifier and ledger for lindsey-provenance projects.
 
 Provenance-tracked build (lindsey-provenance framework).
 
@@ -21,12 +21,12 @@ One row per transition. Every row carries the evidence SHA-256 at transition
 time so retrospective tamper is detectable.
 
 Usage:
-    python3 brad_proof_state.py --project <slug> --artifact <path> --to <state>
+    python3 proof_state.py --project <slug> --artifact <path> --to <state>
                                 [--from <state>] [--witness-operator NAME]
                                 [--instrument-id ID] [--note "..."]
-    python3 brad_proof_state.py --tail [N]
-    python3 brad_proof_state.py --verify
-    python3 brad_proof_state.py --selftest
+    python3 proof_state.py --tail [N]
+    python3 proof_state.py --verify
+    python3 proof_state.py --selftest
 """
 from __future__ import annotations
 
@@ -226,8 +226,8 @@ def summary():
 
 
 def _selftest():
-    """Functional self-test. Uses a '_selftest_' slug so brad_audit skips it."""
-    print("brad_proof_state — self-test")
+    """Functional self-test. Uses a '_selftest_' slug so audit skips it."""
+    print("proof_state — self-test")
     fake_project = "_selftest_ps_" + str(int(time.time()))
     fake_artifact = "fake_artifact.json"
     tmp_dir = os.path.join(_operator_root(), "projects", fake_project)
@@ -276,7 +276,7 @@ def _selftest():
         cleanup_ok = False
     print("  cleanup            : "
           + ("PASS" if cleanup_ok else "BEST-EFFORT (sandbox FS locked)"))
-    print("---\n  brad_proof_state: " + ("PASS" if functional_pass else "FAIL"))
+    print("---\n  proof_state: " + ("PASS" if functional_pass else "FAIL"))
     return 0 if functional_pass else 1
 
 
@@ -302,7 +302,7 @@ def main():
         sys.exit(_selftest())
     if args.verify:
         v = verify()
-        print("[brad_proof_state: verify n_rows=" + str(v["n_rows"])
+        print("[proof_state: verify n_rows=" + str(v["n_rows"])
               + " violations=" + str(v["n_violations"])
               + " ok=" + str(v["ok"]) + "]")
         for i, msg in v["violations"]:
@@ -329,7 +329,7 @@ def main():
         instrument_id=args.instrument_id,
         note=args.note,
     )
-    msg = "[brad_proof_state: PASS - " + args.project + "/"
+    msg = "[proof_state: PASS - " + args.project + "/"
     msg += args.artifact + " -> " + args.to_state + "]"
     print(msg)
     if row.get("evidence_sha256"):

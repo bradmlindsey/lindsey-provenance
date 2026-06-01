@@ -30,12 +30,12 @@ This repo handles all three.
 
 | Practice | What it actually does |
 |---|---|
-| **Closed-form re-route at intake** | Every brief that arrives from the LLM gets triaged before any code is written. If it imports torch / scipy / scikit / etc., we re-route to a stdlib + numpy substitute that preserves the algorithmic intent. Done four times against four structurally different torch surfaces in the source projects; works. |
+| **Closed-form re-route at intake** | Every brief that arrives from the LLM gets triaged before any code is written. If it imports torch / scipy / scikit / etc., we re-route to a stdlib substitute that preserves the algorithmic intent. Done four times against four structurally different torch surfaces in the source projects; works. |
 | **Phase-chain freeze** | Each project phase produces a SHA-256 manifest that inherits the prior phase's SHA. The chain runs unbroken from the sealed baseline through every subsequent phase. If a file silently drifts, the next freeze fails loudly. |
 | **Six-state proof-state ledger** | An artifact's claim level is one of six states: `idea → planned → implemented → simulated → artifact-generated → physically-validated`. Monotonic. You can't claim a state you haven't reached. Forces honesty about what's demonstrated vs. described. |
 | **Multi-modal brief assimilation** | A seven-phase pipeline that ingests `.docx`, `.eml`, photos, and handwriting from the operator and emits a domain-tagged triage report. Stop losing intent in long Slack threads. |
 
-That's the whole repo. About 14 modules. Stdlib + numpy only.
+That's the whole repo. About 14 modules. Stdlib only.
 
 ## Quickstart
 
@@ -43,15 +43,14 @@ That's the whole repo. About 14 modules. Stdlib + numpy only.
 pip install -e .
 lindsey-provenance init my-project
 cd my-project
-lindsey-provenance new-project my-first-project
-lindsey-provenance proof-state set my-first-project planned
-lindsey-provenance freeze my-first-project --phase 1
+lindsey-provenance new-project --slug my-first-project
+lindsey-provenance freeze --project my-first-project --phase 1
 lindsey-provenance audit
 ```
 
 The hello-world example in `examples/hello-world/` exercises every CLI tool end-to-end in under a minute.
 
-## The ten CLI tools
+## The eleven CLI tools
 
 | Command | What it does |
 |---|---|
@@ -155,7 +154,7 @@ The canonical-form discipline binds only the seven authoritative fields. Adding 
 
 ### Obtaining the public key file
 
-The PEM-encoded public key is published at `02_methodology/keys/brad_authorship.pub` in this repository (the private key is never committed). You can also reproduce the fingerprint locally:
+The PEM-encoded public key is published at `keys/brad_authorship.pub` in this repository (the private key is never committed). You can also reproduce the fingerprint locally:
 
 ```bash
 openssl pkey -pubin -in brad_authorship.pub -outform DER | sha256sum

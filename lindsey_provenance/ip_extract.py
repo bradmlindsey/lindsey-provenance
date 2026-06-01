@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""brad_ip_extract — surface IP claims from source markers.
+"""ip_extract — surface IP claims from source markers.
 
 Provenance-tracked build (lindsey-provenance framework).
 
@@ -13,10 +13,10 @@ DRAFT claim row to ip_journal/<slug>_IP_<today>.md. The Principal then signs
 each row to promote it to SIGNED.
 
 Usage:
-    python3 brad_ip_extract.py --project <slug>
-    python3 brad_ip_extract.py --project <slug> --since-phase N
-    python3 brad_ip_extract.py --project <slug> --verify
-    python3 brad_ip_extract.py --selftest
+    python3 ip_extract.py --project <slug>
+    python3 ip_extract.py --project <slug> --since-phase N
+    python3 ip_extract.py --project <slug> --verify
+    python3 ip_extract.py --selftest
 """
 from __future__ import annotations
 
@@ -178,10 +178,10 @@ def _write_journal(project, claims, dry_run=False):
         header = (
             "# IP Extraction Journal — `" + project + "`\n\n"
             "**PROVENANCE-TRACKED · " + PRINCIPAL + (" · " + INSTITUTION if INSTITUTION else "") + "**\n"
-            "**Replicator baseline:** `ace.phase4.freeze-1` = `"
+            "**Replicator baseline:** `my-engine.v1.freeze-1` = `"
             + REPLICATOR_SHA256 + "`\n"
             "**Date:** " + _today() + "\n\n"
-            "> Auto-populated by `brad_ip_extract.py`. Rows are `DRAFT` "
+            "> Auto-populated by `ip_extract.py`. Rows are `DRAFT` "
             "until the Principal signs.\n\n"
             "---\n\n"
         )
@@ -262,8 +262,8 @@ def verify(project):
 
 
 def _selftest():
-    """Functional self-test. Uses a '_selftest_' slug so brad_audit skips it."""
-    print("brad_ip_extract — self-test")
+    """Functional self-test. Uses a '_selftest_' slug so audit skips it."""
+    print("ip_extract — self-test")
     slug = "_selftest_ipxt_" + str(int(time.time()))
     root = _project_root(slug)
     proto = os.path.join(root, "proto")
@@ -305,7 +305,7 @@ def _selftest():
         cleanup_ok = False
     print("  cleanup             : "
           + ("PASS" if cleanup_ok else "BEST-EFFORT (sandbox FS locked)"))
-    print("---\n  brad_ip_extract: " + ("PASS" if verify_ok else "FAIL"))
+    print("---\n  ip_extract: " + ("PASS" if verify_ok else "FAIL"))
     return 0 if verify_ok else 1
 
 
@@ -314,7 +314,7 @@ def _run_main_body(args):
     claims = scan(args.project)
     p, n = _write_journal(args.project, claims, dry_run=args.dry_run)
     suffix = " (dry-run)" if args.dry_run else ""
-    msg = "[brad_ip_extract: PASS - " + args.project + " scanned " + str(len(claims)) + " markers, " + str(n) + " new draft rows]"
+    msg = "[ip_extract: PASS - " + args.project + " scanned " + str(len(claims)) + " markers, " + str(n) + " new draft rows]"
     print(msg)
     if p is not None:
         print("  journal path       : " + p + suffix)
@@ -335,7 +335,7 @@ def main():
         ap.error("--project required (or use --selftest)")
     if args.verify:
         v = verify(args.project)
-        line = "[brad_ip_extract: verify markers=" + str(v["markers"]) + " rows=" + str(v["journal_rows"]) + " ok=" + str(v["ok"]) + "]"
+        line = "[ip_extract: verify markers=" + str(v["markers"]) + " rows=" + str(v["journal_rows"]) + " ok=" + str(v["ok"]) + "]"
         print(line)
         return 0 if v["ok"] else 1
     _run_main_body(args)

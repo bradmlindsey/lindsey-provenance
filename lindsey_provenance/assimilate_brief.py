@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""brad_assimilate_brief - Phase-1/2/3 helper for the BRAD client-brief assimilation workflow.
+"""assimilate_brief - Phase-1/2/3 helper for the client-brief assimilation workflow.
 
 Provenance-tracked build (lindsey-provenance framework).
 
@@ -97,12 +97,12 @@ def update_brief_log(repo_root, archived_name, fmt, words, sha, received_utc, ve
     log_path = os.path.join(repo_root, "operator", "briefs", "BRIEF_LOG.md")
     if not os.path.exists(log_path):
         header = []
-        header.append("# BRAD Brief Log")
+        header.append("# Brief Log")
         header.append("")
         header.append("**PROVENANCE-TRACKED**")
         header.append("**Replicator baseline:** `" + REPLICATOR_BASELINE + "`")
         header.append("")
-        header.append("Immutable log of every client / Architect brief received and routed through the BRAD assimilation workflow.")
+        header.append("Immutable log of every client / Architect brief received and routed through the assimilation workflow.")
         header.append("")
         header.append("| Brief filename | Original format | Words | SHA-256 | Received UTC | Triage doc | Verdict |")
         header.append("|---|---|---:|---|---|---|---|")
@@ -155,7 +155,7 @@ def cmd_extract(args, repo_root):
     nbytes = write_extracted(paras, extracted_path)
     received_utc = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     log_path = update_brief_log(repo_root, archived_name, fmt, words, sha, received_utc, "_pending_")
-    print("[brad_assimilate_brief: extract]")
+    print("[assimilate_brief: extract]")
     print("    archived            : " + dst)
     print("    sha256              : " + sha)
     print("    paragraphs          : " + str(len(paras)))
@@ -213,7 +213,7 @@ def cmd_tag(args, repo_root):
                 histogram[t].append(idx)
         if NUMERICAL_TOKEN_RE.search(text) and (set(tags) <= {"ADMIN"}):
             flagged_numerical.append(idx)
-    print("[brad_assimilate_brief: tag]")
+    print("[assimilate_brief: tag]")
     print("    paragraphs total    : " + str(len(paragraphs)))
     print("    untagged paragraphs : " + str(len(untagged)) + " " + (str(untagged[:8]) if untagged else ""))
     print("    flagged ADMIN+num   : " + str(flagged_numerical[:8]) + "  (numerical tokens in ADMIN-tagged paragraphs - must be re-tagged)")
@@ -247,7 +247,7 @@ def cmd_skeleton(args, repo_root):
     body = body.replace("`YYYY-MM-DD`", datetime.datetime.utcnow().strftime("%Y-%m-%d"))
     with open(out_path, "w", encoding="utf-8") as fh:
         fh.write(body)
-    print("[brad_assimilate_brief: skeleton]")
+    print("[assimilate_brief: skeleton]")
     print("    triage doc written  : " + out_path)
     print("    next               : fill §1-§5 from the extracted text + cross-checks")
     return 0
@@ -260,7 +260,7 @@ def find_repo_root():
 
 
 def main():
-    ap = argparse.ArgumentParser(prog="brad_assimilate_brief", description="BRAD client-brief assimilation helper.")
+    ap = argparse.ArgumentParser(prog="assimilate_brief", description="client-brief assimilation helper.")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--extract", metavar="BRIEF_PATH", help="Archive + extract a brief (.docx/.md/.txt).")
     g.add_argument("--tag", metavar="EXTRACTED_TXT", help="Tag paragraphs against the controlled vocabulary.")
@@ -288,7 +288,7 @@ def selftest(repo_root):
     tagged = []
     for i, p in enumerate(sample, start=1):
         tagged.append((i, p, tag_paragraph(p)))
-    print("[brad_assimilate_brief: selftest]")
+    print("[assimilate_brief: selftest]")
     for idx, text, tags in tagged:
         print("    para " + str(idx) + " tags=" + ",".join(tags) + " :: " + text[:60])
     if "MHD" in tagged[1][2] and "FLUID" in tagged[1][2] and "FAB" in tagged[2][2]:

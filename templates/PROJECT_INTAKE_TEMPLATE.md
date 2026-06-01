@@ -1,10 +1,10 @@
 # Project Intake — `<slug>`
 
-**SECRET IP · Brad M. Lindsey · Lindsey Lab**
-**Inherits:** `ace.phase4.freeze-1` = `9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57`
+**Brad M. Lindsey · Lindsey Lab**
+**Inherits:** `my-engine.v1.freeze-1` = `9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57`
 **Intake date:** `YYYY-MM-DD`
 
-> This template is the input contract for every new project spawned under the BRAD engine. Fill in every section. Where a section is not applicable, write **N/A** rather than leaving blank. Conforms to `PROJECT_INTAKE_SCHEMA.json`.
+> This template is the input contract for every new project spawned under the sealed baseline. Fill in every section. Where a section is not applicable, write **N/A** rather than leaving blank. Conforms to `PROJECT_INTAKE_SCHEMA.json`.
 
 ---
 
@@ -31,7 +31,7 @@
 
 ## 3. Inheritance
 
-- **BRAD engine:** `ace.phase4.freeze-1` = `9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57` (mandatory)
+- **sealed baseline:** `my-engine.v1.freeze-1` = `9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57` (mandatory)
 - **Additional prior project inheritances (optional):**
   | Slug | Phase freeze | SHA-256 |
   |---|---|---|
@@ -100,7 +100,7 @@ min_drainage_pct           = 99.0
 
 ## 5. Phase plan
 
-- **Phases planned:** 4 (Phase 1 / 2 / 3 / 4 — canonical WOQFEW)
+- **Phases planned:** 4 (Phase 1 / 2 / 3 / 4 — canonical)
 - **Expected theory branches:** `<1-5>` (Rule 76 caps at 5)
 - **Phase target dates (tentative):**
   - Phase 1: `YYYY-MM-DD`

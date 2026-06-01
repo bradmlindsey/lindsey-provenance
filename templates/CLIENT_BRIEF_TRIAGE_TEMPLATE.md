@@ -1,13 +1,13 @@
 # Client / Architect Brief Triage — `<brief-basename>`
 
-**SECRET IP · Brad M. Lindsey · Lindsey Lab**
-**Inherits:** `ace.phase4.freeze-1` = `9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57`
+**Brad M. Lindsey · Lindsey Lab**
+**Inherits:** `my-engine.v1.freeze-1` = `9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57`
 **Triage date:** `YYYY-MM-DD`
 **Triage operator:** `<name / agent>`
 **Source brief path:** `operator/briefs/<YYYY-MM-DD>_<short-slug>.<ext>`
 **Source brief SHA-256:** `<64-hex>`
 
-> Reusable template for the seven-phase brief-assimilation workflow defined in `docs/BRAD_CLIENT_BRIEF_ASSIMILATION_WORKFLOW.md`. Fill in every section. Where empty, write `N/A` rather than leaving blank. The Principal signs Section 9 to authorise routing.
+> Reusable template for the seven-phase brief-assimilation workflow (run via `lindsey-provenance assimilate`). Fill in every section. Where empty, write `N/A` rather than leaving blank. The Principal signs Section 9 to authorise routing.
 
 ---
 
@@ -158,4 +158,4 @@ Paragraphs tagged `ADMIN` (rhetoric, branding, schedule, signoff) recorded here 
   - `<field>: <inferred value>` — `ACK ✓ / OVERRIDE: <override value>`
 - **Authorisation:** "I authorise the operator to execute the routing verdict above and consider this triage the canonical record of how the brief was assimilated."
 
-— Triage template version 1.0 · BRAD assimilation workflow rev 1.0 · 2026-05-19
+— Triage template version 1.0 · assimilation workflow rev 1.0 · 2026-05-19

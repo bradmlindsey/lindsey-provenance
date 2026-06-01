@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""brad_audit — background audit runner for the BRAD engine + operator layer.
+"""audit — background audit runner for the sealed baseline + operator layer.
 
 Provenance-tracked build (lindsey-provenance framework).
 
 Checks:
-  1. Sealed-core SHA verifier: every PROGECT BRAD/core/*.py byte-matches
+  1. Sealed-core SHA verifier: every core/*.py byte-matches
      the SHA-256 recorded in artifacts/ace_phase4_manifest.json.
   2. Inheritance integrity: every project's PROJECT_MANIFEST.json inlines
      the replicator baseline SHA-256.
@@ -16,11 +16,11 @@ Checks:
      still match the files on disk.
 
 Usage:
-    python3 brad_audit.py --quick                 # core + inheritance + ledger
-    python3 brad_audit.py --full                  # add IP and chain checks,
+    python3 audit.py --quick                 # core + inheritance + ledger
+    python3 audit.py --full                  # add IP and chain checks,
                                                   # write AUDIT_<date>.md
-    python3 brad_audit.py --project <slug>        # restrict to one project
-    python3 brad_audit.py --selftest
+    python3 audit.py --project <slug>        # restrict to one project
+    python3 audit.py --selftest
 """
 from __future__ import annotations
 
@@ -48,7 +48,7 @@ def _operator_root():
     return _br.operator_root()
 
 
-def _brad_project_root():
+def _audit_project_root():
     return os.path.normpath(os.path.join(_operator_root(), ".."))
 
 
@@ -90,7 +90,7 @@ def check_sealed_core():
     If neither core/ nor a manifest exists, the gate is N/A and returns
     ok=True (a fresh lindsey-provenance project has no sealed engine yet).
     """
-    root = _brad_project_root()
+    root = _audit_project_root()
     manifest_p = os.path.join(root, "artifacts", "ace_phase4_manifest.json")
     core_dir = os.path.join(root, "core")
     has_core_py = (os.path.isdir(core_dir)
@@ -152,8 +152,8 @@ def check_inheritance(project=None):
             continue
         checked += 1
         inh = pm.get("inherits_from", {}) or {}
-        if inh.get("brad_engine_sha256") != REPLICATOR_SHA256:
-            violations.append((entry, "brad_engine_sha256 mismatch"))
+        if inh.get("baseline_sha256") != REPLICATOR_SHA256:
+            violations.append((entry, "baseline_sha256 mismatch"))
         if pm.get("replicator_baseline_sha256") != REPLICATOR_SHA256:
             violations.append((entry, "replicator_baseline_sha256 missing/mismatch"))
     return {"ok": len(violations) == 0, "checked": checked,
@@ -269,7 +269,7 @@ def check_ip_completeness(project=None):
                 pass
 
     # v3.2 patch (2026-05-20): tolerate marker <= row asymmetry.
-    # Signed IP rows are permanent institutional claims; source markers can
+    # Signed IP rows are permanent reserved claims; source markers can
     # legitimately consolidate during refactor (e.g., PT-1 Phase-4 macro rewrite).
     # The audit should FAIL only when markers > rows (a marker without a row =
     # unclaimed source IP) or when DRAFT rows exist without markers. It should
@@ -379,7 +379,7 @@ def _summary_line(out):
 def _write_report(out):
     p = _audit_report_path()
     lines = []
-    lines.append("# BRAD audit — " + out["ts"])
+    lines.append("# Audit — " + out["ts"])
     lines.append("")
     lines.append("**PROVENANCE-TRACKED · " + PRINCIPAL + (" · " + INSTITUTION if INSTITUTION else "") + "**")
     lines.append("")
@@ -401,7 +401,7 @@ def _write_report(out):
 
 
 def _selftest():
-    print("brad_audit — self-test")
+    print("audit — self-test")
     out = run_audit("quick")
     print("  " + _summary_line(out))
     if not out["sealed_core"]["ok"]:
@@ -413,7 +413,7 @@ def _selftest():
     if not out["ledger"]["ok"]:
         for i, why in out["ledger"]["violations"]:
             print("    ledger row " + str(i) + ": " + why)
-    print("---\n  brad_audit: "
+    print("---\n  audit: "
           + ("PASS" if out["all_pass"] else "PARTIAL")
           + "  (sealed_core is the load-bearing check)")
     # Self-test exits 0 if sealed_core passed even if no projects yet
@@ -483,7 +483,7 @@ def _summary_line(out):
     if "phase_chains" in out:
         parts.append("phase_chains=" + ("PASS" if out["phase_chains"]["ok"] else "FAIL"))
     parts.append("ALL=" + ("PASS" if out.get("all_pass") else "FAIL"))
-    return "[brad_audit: " + "  ".join(parts) + "]"
+    return "[audit: " + "  ".join(parts) + "]"
 
 
 if __name__ == "__main__":

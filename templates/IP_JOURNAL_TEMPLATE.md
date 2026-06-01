@@ -1,13 +1,13 @@
 # IP Extraction Journal — `<slug>`
 
-**SECRET IP · Brad M. Lindsey · Lindsey Lab**
-**Replicator baseline:** `ace.phase4.freeze-1` = `9f9d28e5...fbb57`
+**Brad M. Lindsey · Lindsey Lab**
+**Replicator baseline:** `my-engine.v1.freeze-1` = `9f9d28e5...fbb57`
 **Journal file:** `ip_journal/<slug>_IP_<YYYY-MM-DD>.md`
 **Master index:** `ip_journal/JOURNAL.md`
 
 > Every IP claim is captured in real time, at synthesis, not retroactively. Each claim is one row of the table below. Rows are append-only. Rows draft until the Principal signs.
 
-> The build agent surfaces candidates via `# IP-CLAIM:` markers in source. The operator's `brad_ip_extract.py` runner pre-populates rows. The operator enriches. The Principal signs.
+> The build agent surfaces candidates via `# IP-CLAIM:` markers in source. The operator's `ip_extract.py` runner pre-populates rows. The operator enriches. The Principal signs.
 
 ---
 
@@ -15,7 +15,7 @@
 
 1. The build agent writes a piece of source containing a *novel combination*: a new rule, a new closed-form identity, a new architectural pattern, a new material card, a new cryptographic-inheritance pattern.
 2. The build agent annotates the line with `# IP-CLAIM: <one-line description>` and (optionally) `# NOVEL: <reason>`.
-3. The operator runs `python3 operator/tools/brad_ip_extract.py --project <slug>`. The tool appends one draft row per marker to this journal.
+3. The operator runs `python3 operator/tools/ip_extract.py --project <slug>`. The tool appends one draft row per marker to this journal.
 4. The operator enriches the draft row: evidence path, prior-art-search status, filing recommendation.
 5. The Principal signs the row. Until signed, the row is `DRAFT` and is **excluded** from any licensing kit.
 6. The signed row is summarised into `ip_journal/JOURNAL.md` (one line per signed claim across all projects).
@@ -55,14 +55,14 @@ Each row in this file uses the structure below. Append new rows at the bottom (o
 - [ ] Relevant prior art found (citation: `<...>` · disposition: `<narrow|abandon|amend>`).
 
 **Filing recommendation (operator's view):**
-- [ ] Trade secret (retain under SECRET IP envelope).
+- [ ] Trade secret (retain as the operator's reserve).
 - [ ] Provisional patent (file within 12 months).
 - [ ] Defensive publication (publish to block third-party filing).
 - [ ] Pending decision.
 
 **Licensing posture (operator's view):**
 - [ ] Excluded from any external license.
-- [ ] Eligible for license under SECRET IP envelope.
+- [ ] Eligible for license.
 - [ ] Eligible under public-safe summary.
 
 **Inheritance attestation:**
@@ -70,7 +70,7 @@ Each row in this file uses the structure below. Append new rows at the bottom (o
 
 **Principal sign-off:**
 
-> *I, `<your name>`, attest that the foregoing claim originated in `<project name>` under my direction, is my original intellectual work, and is reserved as SECRET IP at my discretion.*
+> *I, `<your name>`, attest that the foregoing claim originated in `<project name>` under my direction, is my original intellectual work, and is reserved at my discretion.*
 
 - **Status:** `DRAFT` → `SIGNED` (toggle on signature)
 - **Signed by:** `<your name>`

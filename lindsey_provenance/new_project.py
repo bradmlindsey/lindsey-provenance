@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""brad_new_project - scaffold a new lindsey-provenance project.
+"""new_project - scaffold a new lindsey-provenance project.
 
 Provenance-tracked build (lindsey-provenance framework).
 
@@ -64,11 +64,10 @@ def _write_project_manifest(slug, name, codename, root):
     manifest["project_codename"] = codename or ""
     manifest["principal"] = PRINCIPAL
     manifest["institution"] = INSTITUTION
-    manifest["ip_classification"] = "internal"
     manifest["created_utc"] = _utc()
     inh = dict()
-    inh["brad_engine"] = REPLICATOR_BASELINE
-    inh["brad_engine_sha256"] = REPLICATOR_SHA256
+    inh["baseline"] = REPLICATOR_BASELINE
+    inh["baseline_sha256"] = REPLICATOR_SHA256
     inh["additional_projects"] = []
     manifest["inherits_from"] = inh
     manifest["replicator_baseline_sha256"] = REPLICATOR_SHA256
@@ -79,7 +78,6 @@ def _write_project_manifest(slug, name, codename, root):
     ps["phase_3"] = "idea"
     ps["phase_4"] = "idea"
     manifest["phase_status"] = ps
-    manifest["secret_ip"] = False
     p = os.path.join(root, "PROJECT_MANIFEST.json")
     open(p, "w").write(json.dumps(manifest, indent=2, sort_keys=True))
     return p
@@ -100,10 +98,10 @@ def _copy_intake(slug, root, src):
 
 def _write_proto_init(slug, root):
     p = os.path.join(root, "proto", "__init__.py")
-    body = '"""' + slug + ' - operator-authored modules under BRAD.\n\n'
+    body = '"""' + slug + ' - operator-authored modules.\n\n'
     body += 'Provenance-tracked build (lindsey_provenance).\n'
     body += '(lindsey-provenance framework)\n\n'
-    body += 'Inherits ace.phase4.freeze-1 = ' + REPLICATOR_SHA256 + '\n'
+    body += 'Inherits my-engine.v1.freeze-1 = ' + REPLICATOR_SHA256 + '\n'
     body += '"""\n'
     body += '__slug__ = "' + slug + '"\n'
     body += '__principal__ = "' + PRINCIPAL + '"\n'
@@ -148,7 +146,7 @@ def _append_ledger(slug):
     row["artifact"] = "PROJECT_MANIFEST.json"
     row["from_state"] = None
     row["to_state"] = "idea"
-    row["operator"] = "brad_new_project"
+    row["operator"] = "new_project"
     row["evidence_sha256"] = _sha256_file(pm_path)
     with open(p, "a") as f:
         f.write(json.dumps(row, sort_keys=True) + "\n")
@@ -185,7 +183,7 @@ def spawn(slug, name=None, codename=None, from_intake=None):
 
 
 def _selftest():
-    print("brad_new_project - self-test (rev 1.1)")
+    print("new_project - self-test (rev 1.1)")
     slug = "selftest-np-" + str(int(time.time()))
     try:
         out = spawn(slug, name="Operator Self-Test", codename="OP-ST")
@@ -221,7 +219,7 @@ def _selftest():
     print("  cleanup            : " + ("PASS" if cleanup_ok else "BEST-EFFORT"))
     verdict = "PASS" if functional_pass else "FAIL"
     print("---")
-    print("  brad_new_project: " + verdict)
+    print("  new_project: " + verdict)
     return 0 if functional_pass else 1
 
 
@@ -238,7 +236,7 @@ def main():
     if not args.slug:
         ap.error("--slug required (or use --selftest)")
     out = spawn(args.slug, args.name, args.codename, args.from_intake)
-    print("[brad_new_project: PASS - slug=" + args.slug + "]")
+    print("[new_project: PASS - slug=" + args.slug + "]")
     print("  root             : " + out["root"])
 
 

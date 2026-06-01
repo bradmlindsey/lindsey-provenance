@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-"""brad_run_phase - one-command Phase-N closeout runner (v3 SPEED tool).
+"""run_phase - one-command Phase-N closeout runner (v3 SPEED tool).
 
 Provenance-tracked build (lindsey-provenance framework).
 
 Replaces ~10 manual operator commands with a single call that:
   1. Runs every proto/*.py self-test in dependency order
-  2. Runs brad_ip_extract to populate journal rows
+  2. Runs ip_extract to populate journal rows
   3. Transitions every proto/*.py + every artifacts/*.stl through
      planned -> implemented -> simulated
-  4. Runs brad_audit --full
-  5. Runs brad_freeze_manifest --project X --phase N
+  4. Runs audit --full
+  5. Runs freeze_manifest --project X --phase N
 
 Stops on the first failure. Reports a clean summary.
 
 Usage:
-    python3 brad_run_phase.py --project <slug> --phase N
-    python3 brad_run_phase.py --project <slug> --phase N --dry-run
+    python3 run_phase.py --project <slug> --phase N
+    python3 run_phase.py --project <slug> --phase N --dry-run
 """
 from __future__ import annotations
 
@@ -119,10 +119,10 @@ def run_phase(slug, phase, dry_run=False):
     # 2. IP extract
     step = dict()
     step["step"] = "ip_extract"
-    step["cmd"] = "brad_ip_extract.py --project " + slug
+    step["cmd"] = "ip_extract.py --project " + slug
     if not dry_run:
         rc, out = _run(["python3", "-B",
-                        os.path.join(op_tools, "brad_ip_extract.py"),
+                        os.path.join(op_tools, "ip_extract.py"),
                         "--project", slug])
         step["rc"] = rc
         step["tail"] = out.splitlines()[-1] if out else ""
@@ -138,7 +138,7 @@ def run_phase(slug, phase, dry_run=False):
             step["step"] = "proof_state:" + art + ":->" + tgt
             if not dry_run:
                 rc, out = _run(["python3", "-B",
-                                os.path.join(op_tools, "brad_proof_state.py"),
+                                os.path.join(op_tools, "proof_state.py"),
                                 "--project", slug,
                                 "--artifact", art,
                                 "--to", tgt])
@@ -148,14 +148,14 @@ def run_phase(slug, phase, dry_run=False):
     # 4. Audit
     step = dict()
     step["step"] = "audit:full"
-    step["cmd"] = "brad_audit.py --full"
+    step["cmd"] = "audit.py --full"
     if not dry_run:
         rc, out = _run(["python3", "-B",
-                        os.path.join(op_tools, "brad_audit.py"),
+                        os.path.join(op_tools, "audit.py"),
                         "--full"])
         step["rc"] = rc
         for line in out.splitlines():
-            if "[brad_audit:" in line:
+            if "[audit:" in line:
                 step["tail"] = line
                 break
     steps_log.append(step)
@@ -163,10 +163,10 @@ def run_phase(slug, phase, dry_run=False):
     # 5. Seal
     step = dict()
     step["step"] = "seal:phase_" + str(phase)
-    step["cmd"] = "brad_freeze_manifest.py --project " + slug + " --phase " + str(phase)
+    step["cmd"] = "freeze_manifest.py --project " + slug + " --phase " + str(phase)
     if not dry_run:
         rc, out = _run(["python3", "-B",
-                        os.path.join(op_tools, "brad_freeze_manifest.py"),
+                        os.path.join(op_tools, "freeze_manifest.py"),
                         "--project", slug, "--phase", str(phase)])
         step["rc"] = rc
         for line in out.splitlines():
@@ -194,7 +194,7 @@ def main():
         ap.error("--project and --phase are required")
     out = run_phase(args.project, args.phase, dry_run=args.dry_run)
     print("=" * 60)
-    print(" brad_run_phase: " + args.project + " phase " + str(args.phase))
+    print(" run_phase: " + args.project + " phase " + str(args.phase))
     print("=" * 60)
     if args.dry_run:
         print("(dry-run)")

@@ -23,3 +23,8 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Keys — never commit private keys. The PUBLIC key (keys/*.pub) IS committed
+# so anyone can verify the authorship signatures.
+*.key
+keys/*.key

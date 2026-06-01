@@ -23,7 +23,7 @@ intent.
 token decoding gets declined under the "no ML libraries" invariant and
 re-routed to: a deterministic signature bank seeded by SHA-256 of token
 names, plus closed-form softmax + argmax. The token-emission semantics
-are identical; the dependency footprint is reduced from torch to numpy.
+are identical; the dependency footprint is reduced from torch to the standard library.
 
 **Why this is novel.** Most LLM-collaboration patterns are *generative* —
 the human accepts what the LLM produces and refactors later. Closed-form

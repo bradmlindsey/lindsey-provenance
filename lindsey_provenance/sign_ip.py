@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""brad_sign_ip - Principal-signing tool for IP-journal rows.
+"""sign_ip - Principal-signing tool for IP-journal rows.
 
 Provenance-tracked build (lindsey-provenance framework).
 
@@ -7,10 +7,10 @@ Flips DRAFT IP-journal rows to SIGNED, records the Principal's signature UTC,
 and appends a one-line index entry to operator/ip_journal/JOURNAL.md.
 
 Usage:
-    brad_sign_ip.py --list                     # show pending DRAFT rows
-    brad_sign_ip.py --sign <claim-id>          # sign one claim
-    brad_sign_ip.py --sign-all                 # sign every pending DRAFT row
-    brad_sign_ip.py --project <slug>           # restrict to one project
+    sign_ip.py --list                     # show pending DRAFT rows
+    sign_ip.py --sign <claim-id>          # sign one claim
+    sign_ip.py --sign-all                 # sign every pending DRAFT row
+    sign_ip.py --project <slug>           # restrict to one project
 """
 from __future__ import annotations
 
@@ -115,7 +115,7 @@ def _sign_one_in_file(path, claim_id):
 def _append_master(claim_id, title, project, path):
     mp = _master_path()
     if not os.path.exists(mp) or os.path.getsize(mp) == 0:
-        hdr = "# IP Master Index - BRAD Engine\n\n"
+        hdr = "# IP Master Index\n\n"
         hdr += "**PROVENANCE-TRACKED - " + PRINCIPAL + "**\n\n"
         hdr += "| Claim ID | Title | Project | Signed UTC |\n"
         hdr += "|---|---|---|---|\n"

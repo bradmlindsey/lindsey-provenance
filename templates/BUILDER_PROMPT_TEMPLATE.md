@@ -1,9 +1,9 @@
 # Builder Prompt Template
 
-**Purpose:** This file renders a phase brief into a canonical directive for a build agent (Claude, Gemini, or any qualified successor). It is the **standardised dispatch format** for any phase of any project under the BRAD engine. The operator copies this template, fills the slots, and pastes the result to the build agent verbatim.
+**Purpose:** This file renders a phase brief into a canonical directive for a build agent (Claude, Gemini, or any qualified successor). It is the **standardised dispatch format** for any phase of any project under the sealed baseline. The operator copies this template, fills the slots, and pastes the result to the build agent verbatim.
 
-**SECRET IP · Brad M. Lindsey · Lindsey Lab**
-**Replicator baseline:** `ace.phase4.freeze-1` = `9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57`
+**Brad M. Lindsey · Lindsey Lab**
+**Replicator baseline:** `my-engine.v1.freeze-1` = `9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57`
 
 ---
 
@@ -32,14 +32,14 @@ Project codename:  <codename>
 Phase:             <N> of 4 — <phase title>
 Replicator:        <baseline-name> = <sha-256>
 Dispatch UTC:      <YYYY-MM-DDThh:mm:ssZ>
-IP classification: SECRET IP · institutional reserve
+IP classification: reserved
 
 ═══════════════════════════════════════════════════════════════════════════
 SCOPE
 ═══════════════════════════════════════════════════════════════════════════
 
-You are building Phase <N> of the project <slug> under the WOQFEW
-programme, replicated from the sealed BRAD engine.
+You are building Phase <N> of the project <slug> under the project
+programme, replicated from the sealed baseline.
 
 Phase scope (one line):
     <one-line scope from PHASE_<N>.md §1>
@@ -51,12 +51,12 @@ This phase covers the following steps of the canonical 12-step partition:
 INHERITANCE — DO NOT MODIFY
 ═══════════════════════════════════════════════════════════════════════════
 
-You inherit from the sealed BRAD engine at:
+You inherit from the sealed baseline at:
 
-    ace.phase4.freeze-1 = 9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57
+    my-engine.v1.freeze-1 = 9f9d28e5bfbcbc8c66c9c9e167ae20b6389493fef28e3caec59cdb47c00fbb57
 
-You may import from PROGECT BRAD/core/ — read-only. You must NEVER modify
-any file under PROGECT BRAD/core/. Doing so triggers a sealed-core drift
+You may import from core/ — read-only. You must NEVER modify
+any file under core/. Doing so triggers a sealed-core drift
 alert and invalidates this phase.
 
 You inherit from prior project phases:
@@ -89,7 +89,7 @@ raise the named exception with the field value and the rule crossed.
     <table from PHASE_<N>.md §4>
 
 These are not stylistic preferences. They are architecturally enforced
-invariants inherited from the sealed BRAD engine.
+invariants inherited from the sealed baseline.
 
 ═══════════════════════════════════════════════════════════════════════════
 ACCEPTANCE CRITERIA
@@ -111,7 +111,7 @@ form:
     # NOVEL: <reason>
     # Rule <N>: <one-line statement>  (only if you are proposing a new rule)
 
-The operator's brad_ip_extract.py tool scans for these markers and
+The operator's ip_extract.py tool scans for these markers and
 pre-populates ip_journal/ rows. You are NOT to declare novelty
 unilaterally; you mark candidates. The Principal signs.
 
@@ -128,7 +128,7 @@ DETERMINISM
 DEPENDENCIES
 ═══════════════════════════════════════════════════════════════════════════
 
-Allowed:    numpy (≥ 1.22) + Python 3.10+ stdlib.
+Allowed:    Python 3.10+ stdlib only.
 Forbidden:  torch, tensorflow, keras, jax, scipy.optimize, ML wrappers,
             any external geometric or topological optimisation library,
             any networked dependency.
@@ -139,10 +139,10 @@ ATTRIBUTION (REQUIRED IN EVERY MODULE DOCSTRING)
 
     """<module name> — <one-line purpose>
 
-    SECRET IP BUILD — Property of Brad M. Lindsey at the institutional
+    Property of Brad M. Lindsey
     level. Lindsey Lab · Project <slug>.
 
-    Inherits ace.phase4.freeze-1.
+    Inherits my-engine.v1.freeze-1.
     """
 
 ═══════════════════════════════════════════════════════════════════════════
@@ -178,11 +178,11 @@ optimisation engine. State it that way.
 OUT OF SCOPE FOR THIS PHASE
 ═══════════════════════════════════════════════════════════════════════════
 
-- Modifying PROGECT BRAD/core/.
+- Modifying core/.
 - Authoring IP claims (only mark candidates).
-- Declaring proof states (only emit artifacts; brad_proof_state.py
+- Declaring proof states (only emit artifacts; proof_state.py
   classifies).
-- Sealing the freeze (only run the audit; brad_freeze_manifest.py seals).
+- Sealing the freeze (only run the audit; freeze_manifest.py seals).
 - Wet-bench claims (Phase 5 only; this is a compiler-side phase).
 
 ═══════════════════════════════════════════════════════════════════════════
@@ -229,7 +229,7 @@ HONESTY REQUIREMENT
 
 If you cannot clear an audit, halt and report. Do not relax a threshold.
 Do not silently re-seed to dodge a violation. Do not paper over a
-non-manifold edge. Honesty is the load-bearing surface of every WOQFEW
+non-manifold edge. Honesty is the load-bearing surface of every
 freeze.
 
 ═══════════════════════════════════════════════════════════════════════════
@@ -249,12 +249,12 @@ After dispatching the rendered prompt, the operator:
 2. Watches the build session output; flags any audit failure on the spot.
 3. After the build agent returns, runs:
    ```
-   python3 operator/tools/brad_audit.py --project <slug> --phase <N> --quick
+   python3 operator/tools/audit.py --project <slug> --phase <N> --quick
    ```
-4. Pre-populates IP-journal rows from `brad_ip_extract.py`.
-5. Transitions affected artifact proof states via `brad_proof_state.py`.
+4. Pre-populates IP-journal rows from `ip_extract.py`.
+5. Transitions affected artifact proof states via `proof_state.py`.
 6. Requests Principal sign-off on §10 of the phase template before sealing.
-7. Runs `brad_freeze_manifest.py --project <slug> --phase <N>` to seal.
+7. Runs `freeze_manifest.py --project <slug> --phase <N>` to seal.
 
 ---
 

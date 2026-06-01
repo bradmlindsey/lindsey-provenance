@@ -9,12 +9,12 @@
 
 ## What works today
 
-- The full CLI (`lindsey-provenance init`, `new-project`, `proof-state`, `freeze`, `audit`, `ip-extract`, `sign-ip`, `status`, `purge-selftest`, `assimilate`, `run-phase`) runs end-to-end on a stock Python 3.10+ environment with numpy.
+- The full CLI (`lindsey-provenance init`, `new-project`, `proof-state`, `freeze`, `audit`, `ip-extract`, `sign-ip`, `status`, `purge-selftest`, `assimilate`, `run-phase`) runs end-to-end on a stock Python 3.10+ environment (standard library only).
 - Hello-world example exercises every CLI tool in under sixty seconds.
-- Python package: `brad_lite` → `lomoto` (DEC-004, 2026-05-20) → `lindsey-provenance` (DEC-005, 2026-05-22). All imports, entry points, and egg-info updated; folder renamed to `01_active/lindsey_provenance/` on 2026-05-23.
+- Python package: `lindsey-provenance` (PyPI: hyphenated; import module: `lindsey_provenance`). Imports, entry points, and egg-info are all consistent.
 - README rewritten in Brad's voice (no LLM-tells; mentions Master Electrician + HVAC background; cites the forthcoming preprint).
 - All templates in `templates/` de-personalized for public release (operator-neutral placeholders).
-- MIT licensed; no external dependencies beyond `numpy`.
+- MIT licensed; no external dependencies (standard library only).
 
 ## What is blocked or in progress
 

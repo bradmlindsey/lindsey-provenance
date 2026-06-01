@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""brad_status - single-command operator dashboard (v2/rev 1.1).
+"""status - single-command operator dashboard (v2/rev 1.1).
 
 Provenance-tracked build (lindsey-provenance framework).
 
@@ -111,7 +111,7 @@ def status():
 def main():
     s = status()
     print("=" * 60)
-    print(" BRAD OPERATOR STATUS - " + s["ts"])
+    print("OPERATOR STATUS - " + s["ts"])
     print("=" * 60)
     print("Replicator baseline    : " + s["replicator_baseline"])
     print("Replicator SHA-256     : " + s["replicator_baseline_sha256"])
