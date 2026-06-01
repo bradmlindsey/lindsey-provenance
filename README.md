@@ -6,6 +6,16 @@ I started writing code for the first time on April 4, 2026. By May 20, I had ~28
 
 `lindsey-provenance` is those practices extracted into a tool. It is what I wish I'd had on day one.
 
+## Publications
+
+This work is documented in three open-access papers (CC BY 4.0):
+
+- **Phase-Chain Freeze and Closed-Form Re-Route: A Discipline for LLM-Collaborative Engineering with Cryptographic Provenance** — the methodology. https://doi.org/10.5281/zenodo.20481729
+- **One Operator, Nine Trunks, Seven Weeks** — an experience report on building it. https://doi.org/10.5281/zenodo.20469751
+- **Zero of Forty-Nine** — a calibrated self-audit of the portfolio's novelty claims. https://doi.org/10.5281/zenodo.20470317
+
+arXiv version of record forthcoming. Author of record: ORCID 0009-0004-6392-2720.
+
 ## What problem this solves
 
 When you collaborate with an LLM on a codebase that gets bigger than a single file, three things go wrong:
