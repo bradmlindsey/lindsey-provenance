@@ -10,7 +10,7 @@ I started writing code for the first time on April 4, 2026. By May 20, I had ~28
 
 This work is documented in three open-access papers (CC BY 4.0):
 
-- **Phase-Chain Freeze and Closed-Form Re-Route: A Discipline for LLM-Collaborative Engineering with Cryptographic Provenance** — the methodology. https://doi.org/10.5281/zenodo.20481729
+- **Phase-Chain Freeze and Closed-Form Re-Route: A Discipline for LLM-Collaborative Engineering with Cryptographic Provenance** — the methodology. https://doi.org/10.5281/zenodo.20481728
 - **One Operator, Nine Trunks, Seven Weeks** — an experience report on building it. https://doi.org/10.5281/zenodo.20469751
 - **Zero of Forty-Nine** — a calibrated self-audit of the portfolio's novelty claims. https://doi.org/10.5281/zenodo.20470317
 
