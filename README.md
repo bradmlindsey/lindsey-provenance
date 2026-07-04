@@ -10,6 +10,7 @@ I started writing code for the first time on April 4, 2026. By May 20, I had ~28
 
 This work is documented in a connected series of open-access papers (CC BY 4.0):
 
+- **Seven Sessions, One Caught Flaw: Running a Mathematics Program Under a Provenance Discipline When the Operator Cannot Check the Math** — a case study applying this discipline to pure mathematics the operator cannot verify; the discipline caught two real errors the same day, every claim is hash-anchored, and the paper deposits its own sealed provenance trace. Carefully-audited candidate mathematics awaiting human referee. https://doi.org/10.5281/zenodo.21185475
 - **A Provenance-Governed Evaluation of Frontier-Model Bounded Autonomy: The Fable 5 Sessions** — a pre-registered, independently re-verified evaluation of bounded model autonomy run *against this reference implementation*; every claim is hash-traceable. https://doi.org/10.5281/zenodo.20678119
 - **Phase-Chain Freeze and Closed-Form Re-Route: A Discipline for LLM-Collaborative Engineering with Cryptographic Provenance** — the methodology. https://doi.org/10.5281/zenodo.20481728
 - **One Operator, Nine Trunks, Seven Weeks** — an experience report on building it. https://doi.org/10.5281/zenodo.20469751
